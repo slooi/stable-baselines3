@@ -1,3 +1,23 @@
+## How to use
+
+### Train
+
+Syntax: `python main.py <STABLE_BASELINES3_ENVIRONMENT> <STABLE_BASELINES3_ALGORITHM> -t`
+
+```sh
+python main.py Pendulum-v1 PPO -t
+```
+
+### Test
+
+After you have trained your model, you can then test it!
+
+Syntax: `python main.py <STABLE_BASELINES3_ENVIRONMENT> <STABLE_BASELINES3_ALGORITHM> -s "<PATH_TO_YOUR_TRAINED_MODEL>"`
+
+```sh
+python main.py Pendulum-v1 PPO -s "models\Pendulum-v1_2025-06-01_20-34-36\PPO_1275000.zip"
+```
+
 ## Gotcha - Fix cuda issue
 
 if `torch.cuda.is_available()` is false but you have `nvidia-smi` do the following steps:

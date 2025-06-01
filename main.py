@@ -53,6 +53,7 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 	# python main.py Pendulum-v1 PPO -s "models\Pendulum-v1_2025-06-01_20-34-36\PPO_1275000.zip"
+	# python main.py Pendulum-v1 PPO -t
 
 	sb3_class=getattr(stable_baselines3,args.algo)
 
