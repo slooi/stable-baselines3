@@ -10,7 +10,10 @@
 			"request": "launch",
 			"program": "${file}",
 			"console": "integratedTerminal",
-			"args": ["Humanoid-v5", "SAC", "--train"],
+			"args": [
+				"PPO",
+				"-t"
+			],
 			"justMyCode": true
 		}
 	]

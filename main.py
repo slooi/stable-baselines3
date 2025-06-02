@@ -4,6 +4,7 @@ import argparse
 import os
 import sys
 import datetime
+from pyboy_pokemon_env import PokemonRedEnv
 
 print("ARGS:", sys.argv)
 
@@ -19,20 +20,18 @@ def train(env, algo, env_name):
     os.makedirs(full_log_dir, exist_ok=True)
 
     print("env", env)
-    model = sb3_class("MlpPolicy", env, verbose=1, device="cuda", tensorboard_log=full_log_dir)
+    model = sb3_class("MlpPolicy", env, verbose=1, device="cpu", tensorboard_log=full_log_dir)
     TIMESTEPS = 25000
     iters = 0
     while True:
         iters += 1
         model.learn(total_timesteps=TIMESTEPS, reset_num_timesteps=False)
-        model.save(f"{full_model_dir}/{algo}_{TIMESTEPS*iters}")
+        model.save(f"{full_model_dir}/{algo}_{TIMESTEPS * iters}")
 
 
 def test(env, path_to_model):
     model = sb3_class.load(path_to_model, env)
-
     obs = env.reset()[0]
-    # done=False
     extra_steps = 500
     while True:
         action, _ = model.predict(obs)
@@ -44,30 +43,23 @@ def test(env, path_to_model):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="train or test model")
-
-    # Positional argument: environment name
-    parser.add_argument("gymenv", help="The Gym environment ID: Humanoid-v5 Pendulum-v1")
-    parser.add_argument("algo", help="Algorithm: PPO SAC TD3")
-
-    # Optional flags
+    parser = argparse.ArgumentParser(description="Train or test model")
+    parser.add_argument("algo", help="Algorithm: PPO, SAC, TD3")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-t", "--train", action="store_true")
     group.add_argument("-s", "--test", metavar="MODEL_PATH", help="Simulate using the specified model file")
-
     args = parser.parse_args()
-    # python main.py Pendulum-v1 PPO -s "models\Pendulum-v1_2025-06-01_20-34-36\PPO_1275000.zip"
-    # python main.py Pendulum-v1 PPO -t
 
     sb3_class = getattr(stable_baselines3, args.algo)
 
+    env_name = "PokemonRed"
+    env = PokemonRedEnv(render=bool(args.test))
+
     if args.train:
-        gymenv = gym.make(args.gymenv, render_mode=None)
-        train(gymenv, args.algo, args.gymenv)
+        train(env, args.algo, env_name)
 
     if args.test:
         if os.path.isfile(args.test):
-            gymenv = gym.make(args.gymenv, render_mode="human")
-            test(gymenv, args.test)
+            test(env, args.test)
         else:
             print(f"{args.test} not found")
