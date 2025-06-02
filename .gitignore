@@ -1,2 +1,7 @@
 logs
 models
+PokemonRed.gb
+PokemonRed.gb.ram
+PokemonRed.gb.state
+has_pokedex.state
+__pycache__
