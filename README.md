@@ -42,3 +42,11 @@ torch.cuda.get_device_name(0)
 4. Checkout what version of pytorch you need. Then find the most compatible cuda version of pytorch based on surrounding info and if the required pytorch version appears in your corresponding wheel link (i.e: https://download.pytorch.org/whl/cu121/torch/)
 5. install CUDA version of pytorch: `pip install torch --index-url https://download.pytorch.org/whl/cu121`
 6. DONE!
+
+
+## CONDA ISSUES
+If you get an issue where your paths are borken running `conda activate ENV_NAME` in VSCode, add these settings to your VSCode settings.json
+```json
+  "python.terminal.activateEnvironment": false,
+  "terminal.integrated.inheritEnv": false
+```
