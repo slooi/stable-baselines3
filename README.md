@@ -50,3 +50,24 @@ If you get an issue where your paths are borken running `conda activate ENV_NAME
   "python.terminal.activateEnvironment": false,
   "terminal.integrated.inheritEnv": false
 ```
+If you can't find conda in your vscode git-bash terminal, try adding the folowing to your `~/.bashrc` file
+```sh
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/c/Users/YOU_NAME/anaconda3/Scripts/conda.exe' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/c/Users/YOU_NAME/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/c/Users/YOU_NAME/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/c/Users/YOU_NAME/anaconda3/Scripts:$PATH"
+        # For newer conda versions, condabin is often preferred or also needed.
+        # The hook handles this, but if manually setting, consider:
+        # export PATH="/c/Users/YOU_NAME/anaconda3/condabin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+```
